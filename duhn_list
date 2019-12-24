@@ -12,14 +12,20 @@ class DuhnList:
         self.deeds_table = dynamodb.Table('deeds')
         self.email = email
 
+    def deed_item_formatted_date(self, done_at):
+        datetime_original_format = '%Y-%m-%d %H:%M:%S.%f'
+        time = datetime.datetime.strptime(done_at, datetime_original_format)
+
+        datetime_short_format = '%Y-%m-%d %H:%M'
+        return time.strftime(datetime_short_format)
+
     def deed_list(self):
         response = self.deeds_table.query(
             KeyConditionExpression=Key('author-email').eq('julio@morgane.com'))
 
         items = sorted(response['Items'], key=lambda item: item['done-at'], reverse=True)
         for item in items:
-            time = datetime.datetime.strptime(item['done-at'], '%Y-%m-%d %H:%M:%S.%f')
-            print(time.strftime("%b %d %Y %H:%M:%S"), item['deed-type'].split('-')[0], item['deed'])
+            print(self.deed_item_formatted_date(item['done-at']), item['deed-type'].split('-')[0], item['deed'])
 
 if __name__ == '__main__':
     DuhnList('julio@morgane.com').deed_list()
