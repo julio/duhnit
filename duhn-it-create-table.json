@@ -2,26 +2,26 @@
   "TableName": "deeds",
   "KeySchema": [
     {
-        "AttributeName": "author-email",
-        "KeyType": "HASH"
+      "AttributeName": "author-email",
+      "KeyType": "HASH"
     },
     {
-        "AttributeName": "deed-type",
-        "KeyType": "RANGE"
+      "AttributeName": "deed-type",
+      "KeyType": "RANGE"
     }
   ],
   "AttributeDefinitions": [
-      {
-          "AttributeName": "author-email",
-          "AttributeType": "S"
-      },
-      {
-          "AttributeName": "deed-type",
-          "AttributeType": "S"
-      }
+    {
+      "AttributeName": "author-email",
+      "AttributeType": "S"
+    },
+    {
+      "AttributeName": "deed-type",
+      "AttributeType": "S"
+    }
   ],
   "ProvisionedThroughput": {
-      "ReadCapacityUnits": 5,
-      "WriteCapacityUnits": 5
+    "ReadCapacityUnits": 5,
+    "WriteCapacityUnits": 5
   }
 }
