@@ -16,3 +16,6 @@ Consider deleting the table if already exists
 
 Create if table does not exist
 - aws --profile=duhnit dynamodb create-table --cli-input-json file://duhn-it-create-table.json
+
+Make it runnable from anywhere
+- ln -s ~/code/perso/julio/duhnit/duhn /usr/local/bin/duhn
