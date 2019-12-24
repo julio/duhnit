@@ -1,3 +1,6 @@
+Install awscli
+- pip install awscli
+
 Set up aws account
 - aws configure --profile duhnit
 - AWS Access Key ID [None]: ...
@@ -19,3 +22,6 @@ Create if table does not exist
 
 Make it runnable from anywhere
 - ln -s ~/code/perso/julio/duhnit/duhn /usr/local/bin/duhn
+
+Add duhnit records
+- ./duhn "Did a thing" --felt 'happy' --type 'perso'
