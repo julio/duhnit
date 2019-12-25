@@ -3,6 +3,7 @@
 import datetime
 import argparse
 
+import colorama
 import boto3
 from boto3.dynamodb.conditions import Key
 
@@ -34,9 +35,9 @@ class DuhnList:
     def deed_list(self):
         response = self.query_response()
 
-        items = sorted(response['Items'], key=lambda item: item['done-at'], reverse=True)
+        items = sorted(response['Items'], key=lambda item: item['done-at'])
         for item in items:
-            print(self.deed_item_formatted_date(item['done-at']), item['deed-type'].split('-')[0], item['deed'])
+            print(self.deed_item_formatted_date(item['done-at']) + '\033[31m' + ' :' + item['deed-type'].split('-')[0] + ': ' + '\033[0m' + item['deed'])
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Things I duhn!')
