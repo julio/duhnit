@@ -1,0 +1,32 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Metadata:
+    Generator: "former2"
+Description: ""
+Resources:
+    dynamodbc50d600:
+        Type: "AWS::DynamoDB::Table"
+        Properties:
+            AttributeDefinitions:
+              -
+                AttributeName: "author-email"
+                AttributeType: "S"
+              -
+                AttributeName: "deed-type"
+                AttributeType: "S"
+            TableName: "deeds"
+            KeySchema:
+              -
+                AttributeName: "author-email"
+                KeyType: "HASH"
+              -
+                AttributeName: "deed-type"
+                KeyType: "RANGE"
+            ProvisionedThroughput:
+                ReadCapacityUnits: 5
+                WriteCapacityUnits: 5
+
+    iam2b28f50:
+        Type: "AWS::IAM::User"
+        Properties:
+            Path: "/"
+            UserName: "duhnit-dynamodb-read-write-user"
