@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import datetime
+from datetime import datetime, timedelta
 import argparse
 
 import colorama
@@ -17,7 +17,7 @@ class DuhnList:
 
     def deed_item_formatted_date(self, done_at):
         datetime_original_format = '%Y-%m-%d %H:%M:%S.%f'
-        time = datetime.datetime.strptime(done_at, datetime_original_format)
+        time = datetime.strptime(done_at, datetime_original_format)
 
         datetime_short_format = '%Y-%m-%d %H:%M'
         return time.strftime(datetime_short_format)
@@ -26,11 +26,13 @@ class DuhnList:
         return self.args.type != 'all'
 
     def query_response(self):
-        condition = Key('author-email').eq('julio@morgane.com')
-        if self.should_filter_by_type():
-            condition &= Key('deed-type').begins_with(self.args.type + '-')
+        n_days_ago = datetime.now() - timedelta(days=int(self.args.days))
 
-        return self.deeds_table.query(KeyConditionExpression=condition)
+        response = self.deeds_table.query(
+			KeyConditionExpression=(Key('author-email').eq('julio@morgane.com')),
+			FilterExpression=Key('done-at').between(str(n_days_ago), str(datetime.now()))
+		)
+        return response
 
     def deed_list(self):
         response = self.query_response()
@@ -43,6 +45,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Things I duhn!')
 
     parser.add_argument('--type', default='all', help='Things I duhn (default: all)')
+    parser.add_argument('--days', default='15',  help='Number of days back (default: 15)')
     args = parser.parse_args()
 
     DuhnList('julio@morgane.com', args).deed_list()
