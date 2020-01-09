@@ -5,7 +5,7 @@ import argparse
 
 import colorama
 import boto3
-from boto3.dynamodb.conditions import Key
+from boto3.dynamodb.conditions import Key, Attr, And
 
 class DuhnList:
     def __init__(self, email, args):
@@ -25,13 +25,20 @@ class DuhnList:
     def should_filter_by_type(self):
         return self.args.type != 'all'
 
-    def query_response(self):
+    def filter_expression(self):
         n_days_ago = datetime.now() - timedelta(days=int(self.args.days))
+        return Key('done-at').between(str(n_days_ago), str(datetime.now()))
 
+    def key_condition_expression(self):
+        key_condition_expression = Key('author-email').eq('julio@morgane.com')
+        if self.should_filter_by_type():
+            key_condition_expression = key_condition_expression & Key('deed-type').begins_with(self.args.type)
+        return key_condition_expression
+
+    def query_response(self):
         response = self.deeds_table.query(
-			KeyConditionExpression=(Key('author-email').eq('julio@morgane.com')),
-			FilterExpression=Key('done-at').between(str(n_days_ago), str(datetime.now()))
-		)
+			KeyConditionExpression=self.key_condition_expression(),
+			FilterExpression=self.filter_expression())
         return response
 
     def deed_list(self):
