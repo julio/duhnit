@@ -52,7 +52,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Things I duhn!')
 
     parser.add_argument('--type', default='all', help='Things I duhn (default: all)')
-    parser.add_argument('--days', default='15',  help='Number of days back (default: 15)')
+    parser.add_argument('-d', '--days', default='15',  help='Number of days back (default: 15)')
     args = parser.parse_args()
 
     DuhnList('julio@morgane.com', args).deed_list()

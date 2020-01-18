@@ -44,7 +44,7 @@ if __name__ == '__main__':
 
     parser.add_argument('deed', type=str, help='What I duhn!')
     parser.add_argument('--felt', default='normal', help='How I felt with this deed (default: normal)')
-    parser.add_argument('--type', default='test',   help='What type of deed was this (default: test)')
+    parser.add_argument('-t', '--type', default='test',   help='What type of deed was this (default: test)')
 
     args = parser.parse_args()
 
