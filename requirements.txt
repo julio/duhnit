@@ -1,3 +1,3 @@
-awscli==1.16.308
+awscli==1.44.38
 boto3==1.10.44
 colorama==0.4.1
